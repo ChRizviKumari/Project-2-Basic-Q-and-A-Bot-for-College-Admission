@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Admission Q&A Bot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-image: url('{{ url_for('static', filename='college_background.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .history-container {
+            width: 10%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 50vh;
+        }
+
+        .chat-container {
+            width: 90%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        #chat-box {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        #user-input {
+            width: calc(100% - 60px);
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .question-item {
+            cursor: pointer;
+            padding: 5px 0;
+        }
+
+        .question-item:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="history-container">
+        <h3>History</h3>
+        <div id="history-box"></div>
+    </div>
+    <div class="chat-container">
+        <h2>College Admission Q&A Bot</h2>
+        <div id="chat-box"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Ask me anything...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('user-input').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            var userInput = document.getElementById('user-input').value;
+            if (userInput.trim() !== "") {
+                var chatBox = document.getElementById('chat-box');
+                chatBox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+
+                // Add the question to the history
+                var historyBox = document.getElementById('history-box');
+                var questionItem = document.createElement('div');
+                questionItem.className = 'question-item';
+                questionItem.textContent = userInput;
+                questionItem.onclick = function() {
+                    document.getElementById('user-input').value = this.textContent;
+                };
+                historyBox.appendChild(questionItem);
+
+                fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: userInput }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    chatBox.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+                    document.getElementById('user-input').value = '';
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                });
+            }
+        }
+    </script>
+</body>
+</html>

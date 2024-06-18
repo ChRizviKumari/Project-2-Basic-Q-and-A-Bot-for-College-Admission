@@ -1,0 +1,71 @@
+body {
+    background-image: url('{{ url_for('static', filename='college_background.jpg') }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+    color: black; /* Change text color to black */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.chat-container {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    max-width: 100%;
+    color: black; /* Change text color to black */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black; /* Change text color to black */
+}
+
+#chat-history {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+    max-height: 100px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    color: black; /* Change text color to black */
+}
+
+#chat-box {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    color: black; /* Change text color to black */
+}
+
+input[type="text"] {
+    width: calc(100% - 60px);
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-right: 10px;
+    color: black; /* Change text color to black */
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: #28a745;
+    color: black; /* Change text color to black */
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
